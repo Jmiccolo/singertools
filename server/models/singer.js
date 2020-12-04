@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const db = require("../models");
 
 const singerSchema = new mongoose.Schema({
     name:{type:String, required:true},
@@ -19,6 +20,21 @@ singerSchema.pre("save", async function(next){
    catch(err) {
        return next(err);
    }
+})
+singerSchema.pre("remove", async function(next){
+    console.log("from the pre remove")
+    try{
+        this.songs.forEach(song=>{
+            db.Song.findByIdAndRemove(song._id)
+            .then(res=> console.log("delete"))
+            .catch(err => console.log(err));
+        })
+        next();
+    }
+    catch(err){
+        console.log(err)
+        next(err)
+    }
 })
 
 singerSchema.methods.comparePassword = async function(submittedPassword, next){
