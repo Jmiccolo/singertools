@@ -1,11 +1,20 @@
 const path = require("path");
-module.exports = {
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const common = require("./webpack.common");
+const merge = require("webpack-merge");
+
+module.exports = merge(common, {
     mode: "development",
-    entry:"./src/index.js",
     output:{
         filename: "main.js",
         path: path.resolve(__dirname, "dist")
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template:"./src/template.html",
+            inject:false
+        })
+    ],
     module:{
         rules:[
             {
@@ -13,5 +22,16 @@ module.exports = {
                 use:["style-loader", "css-loader", "sass-loader"]
             }   
         ]
+    },
+    devServer: {
+        contentBase: path.join(__dirname, "/client/dist"),
+        compress: true,
+        port: 8080,
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8081',
+                secure: false
+            }
+        }
     }
-}
+});

@@ -1,38 +1,38 @@
 import axios from "Axios";
+import frontEnd from "../frontend"
 import {DashboardService} from "./DashboardService"
 import {LandingService} from "./LandingService"
 
-export class Service {
-    constructor(){
-        this.user = null;
-        this.errors = null;
+export class Service extends frontEnd.component{
+    constructor(props){
+        super(props)
+        this.state = {
+            user:null,
+            errors:null
+        };
         this.render = this.render.bind(this);
-        this.setUser = this.setUser.bind(this);
-        this.setErrors = this.setErrors.bind(this);
         this.loginUser = this.loginUser.bind(this);
-        this.start = this.start.bind(this);
-    }
-
-    start(){
-        this.setUser();
     }
 
     setUser(){
-        if(window.localStorage.singerjwtoken){
-            axios.defaults.headers.common["Authorization"] = Window.localStorage.singerjwtoken;
-            axios["get"]("/api/registertoken")
+        if(localStorage.singerjwtoken){
+            axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.singerjwtoken}`;
+            axios["post"]("/api/auth/signin")
                 .then(user => {
-                    if(user){
-                        this.user = user;
-                        this.render();
+                    console.log(user);
+                    if(user.data){
+                        console.log("Got user")
+                        this.setState({...this.state, user:user.data});
                     }
                 })
                 .catch(err => {
-                    this.errors = err.message;
+                    console.log(err)
+                    this.setState({...this.state, errors:err});
                     this.render();
                 });
         }
         else{
+            console.log("From Here")
             this.render();
         }
     }
@@ -42,12 +42,12 @@ export class Service {
     }
 
     loginUser(type, user){
-        axios["post"](`/${type}`, user)
+        console.log("User is " + user)
+        axios["post"](`/api/${type}`, user)
         .then(res => {
             console.log(res);
-            window.localStorage.singerjwtoken = res.token;
-            this.user = res.singer;
-            this.setUser();
+            localStorage.setItem("singerjwtoken", res.data.token);
+            this.setState({...this.state, user:res.data.user});
         })
         .catch(err => {
             console.log(err)
@@ -56,18 +56,16 @@ export class Service {
     }
 
     logoutUser(){
-        delete Window.localStorage.singerjwtoken;
+        delete localStorage.singerjwtoken;
     }
 
-    render(services){
-        let {user, errors, render, loginUser, setUser} = this;
-        if(user){
-            const dashboardService = new DashboardService(user, errors,logoutUser);
-            dashboardService.render();
+    render(){
+        let {render, loginUser, setUser, logoutUser} = this;
+        if(this.state.user){
+            return frontEnd.createComponent(DashboardService, {user: this.state.user, errors:this.state.errors, logoutUser});
         }
         else{
-            const landingService = new LandingService({loginUser, setUser})
-            landingService.render();
+            return frontEnd.createComponent(LandingService, {loginUser, setUser});
         }
     
     }

@@ -1,38 +1,35 @@
+import frontEnd from "../frontend";
 import {NavbarService} from "./NavbarService";
-import {detailService} from "./detailService"
-import {LoginService} from "./LoginService";
-export class LandingService {
+import {BodyService} from "./BodyService";
+import {FooterService} from "./FooterService";
+
+export class LandingService extends frontEnd.component{
     constructor(props){
-        let {setUser, loginUser} = props;
-        this.setUser = setUser;
-        this.loginUser = loginUser;
-        this.signin = false;
-        this.signup = false;
+        super(props);
+        this.state = {
+            signin:false,
+            signup:false
+        }
         this.signInSet = this.signInSet.bind(this);
         this.signUpSet = this.signUpSet.bind(this);
-        this.render = this.render.bind(this);
+        this.home = this.home.bind(this);
     }
     signInSet(){
-        this.signin = true;
-        this.signup = false;
-        this.render();
+        console.log("called")
+        this.setState({signin:true, signup:false})
     }
     signUpSet(){
-        this.signin = false;
-        this.signup = true;
-        this.render();
+        this.setState({signin:false, signup:true})
+    }
+    home(){
+        this.setState({signin:false, signup:false})
     }
     render(){
-        let {loginUser, setUser, signInSet, signUpSet} = this;
-        const navbarService = new NavbarService({header:"SingerTools", links:["signin","signup"], actions:{home:setUser, signin:signInSet, signup:signUpSet}, active:null})
-        navbarService.render();
-        detailService();
-        if(this.signin){
-            const loginService = new LoginService({type:"auth/login", setUser, loginUser});
-            loginService.render();
-        }else if(this.signup){
-            const loginService = new LoginService({type:"singer/new", setUser, loginUser});
-            loginService.render();
-        }
+        let {signin, signup} = this.state;
+        console.log(signin, signup);
+        let header = NavbarService({header:"SingerTools", links:["Signin", "Signup"], Signin:this.signInSet, Signup:this.signUpSet, home:this.home});
+        let main = frontEnd.createElement("main", {}, BodyService({signin, signup}));
+        let footer = FooterService({});
+        return frontEnd.compile(header, main, footer);
     }
 }

@@ -1,4 +1,5 @@
-import {run} from "./app/app";
+import frontend from "./app/frontend";
 import "./index.scss";
+import {Service} from "./app/services";
 
-run();
+frontend.virtualDOM.render(Service, ".root")

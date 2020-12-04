@@ -14,8 +14,9 @@ export class LoginService{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleSubmit(e){
+        e.preventDefault();
+        console.log("from handler")
         const {username, email, password, name} = this;
-        e.preventDefault;
         let user = {
             username,
             email,
@@ -94,10 +95,10 @@ export class LoginService{
             let Main = document.querySelector("main");
             Main.innerHTML += container.outerHTML;
             document.getElementById("login-form").addEventListener("submit", this.handleSubmit);
-            document.getElementById("username").addEventListener("change", this.handleChange);
-            document.getElementById("email").addEventListener("change", this.handleChange);
-            document.getElementById("password").addEventListener("change", this.handleChange);
-            document.getElementById("name").addEventListener("change", this.handleChange);
+            document.getElementById("username").addEventListener("input", this.handleChange);
+            document.getElementById("email").addEventListener("input", this.handleChange);
+            document.getElementById("password").addEventListener("input", this.handleChange);
+            document.getElementById("name").addEventListener("input", this.handleChange);
         }
         else{
             

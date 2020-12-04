@@ -4,8 +4,9 @@
   "description": "A Toolbox for singers",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --config webpack.dev.js"
+    "start": "webpack-dev-server --config webpack.dev.js --open"
   },
+  "proxy": "http://localhost:8081",
   "author": "Josh Miccolo",
   "license": "ISC",
   "devDependencies": {
@@ -24,6 +25,7 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "clean-webpack-plugin": "^2.0.0"
   }
 }

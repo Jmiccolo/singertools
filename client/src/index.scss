@@ -1,3 +1,93 @@
 body {
-    background-color: purple;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    height: 10vh;
+    background-color: white;
+    position: sticky;
+    top:0;
+    padding: 0;
+    margin: 0;
+    nav{
+        height: 100%;
+        width: 100%;
+        background-color:#222222;
+        border-bottom: 3px solid black;
+        display: flex;
+        justify-content: space-between;
+        div{
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            h1{
+                font-size: 50px;
+                color: white;
+                text-shadow: 2px 2px black;
+            }
+            ul{
+                display: flex;
+                margin: 0;
+                li{
+                    list-style:none;
+                    padding: 0 1em;
+                    button {
+                        appearance: none;
+                        color: white;
+                        display: block;
+                        align-items: baseline;
+                        background: transparent;
+                        border: none;
+                        font-size: 20px;
+                        padding: 0;
+                        margin: 0;
+                        &:visited &:focus &:active{
+                            border: none;  
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}
+.main {
+    height: 90vh;
+    width: 100%;
+    background-image: url("https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80");
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding:0;
+    display: flex;
+    section{
+        width: 50%;
+        padding: 25px;
+        text-align: center;
+        display: flex; 
+        flex-direction: column;
+        justify-content: center;
+        background-color: #ffffffaa;
+    }
+    h2, p{
+        margin:0;
+        color: black;
+        text-shadow: 1px 1px white;
+        font-size: 40px;
+    }
+    p{
+        margin: 1em;
+        font-size: 30px;
+    }
+}
+@media only screen and (max-width: 650px){
+    .main {
+        flex-direction: row;
+        flex-wrap: wrap;
+        section{
+            width: 100%;
+        }
+    }
 }
