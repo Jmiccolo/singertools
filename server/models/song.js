@@ -4,6 +4,8 @@ const db = require("../models");
 const songSchema = new mongoose.Schema({
     title:String,
     composer:String,
+    key: String,
+    range: [String],
     user:{type:mongoose.Schema.Types.ObjectId, ref:"Singer"},
     text: [String],
     learned: {

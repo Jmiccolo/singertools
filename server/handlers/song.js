@@ -1,7 +1,7 @@
 const db = require("../models");
 
 exports.createSong = function(req, res){
-    req.body.text = req.body.text.replace(/\n/g, " <br> ").split(" ");
+    req.body.text = req.body.text.split(" ");
     db.Song.create(req.body)
     .then(song => {
         db.Singer.findById(req.body.user)

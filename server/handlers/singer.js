@@ -62,6 +62,7 @@ exports.deleteSinger = function(req, res){
 }
 
 exports.addSong = function(req, res){
+    console.log(req.params.id, req.body.id);
     db.Singer.findById(req.params.id)
     .then(singer => {
         db.Song.findById(req.body.id)
@@ -79,6 +80,7 @@ exports.addSong = function(req, res){
             song.save();
             singer.songs.push(song);
             singer.save();
+            console.log(singer)
             res.send(singer);
         })
         .catch(err=> {
@@ -92,4 +94,14 @@ exports.addSong = function(req, res){
     });
     }
 
+exports.getSongs = function(req, res ){
+    db.Singer.findById(req.params.id)
+        .populate("songs").then(singer => {
+            res.send(singer.songs);
+        })
+        .catch(err=>{
+            console.log(err);
+            res.send(err);
+        })
+}
 module.exports = exports;
