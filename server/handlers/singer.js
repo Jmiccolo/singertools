@@ -95,13 +95,14 @@ exports.addSong = function(req, res){
     }
 
 exports.getSongs = function(req, res ){
-    db.Singer.findById(req.params.id)
-        .populate("songs").then(singer => {
-            res.send(singer.songs);
+    db.Song.find({user:req.params.id})
+        .populate("title")
+        .then(songs=>{
+            res.send(songs);
         })
         .catch(err=>{
             console.log(err);
-            res.send(err);
+            res.status(400).json({message:"Something went wrong"});
         })
 }
 module.exports = exports;

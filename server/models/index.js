@@ -10,3 +10,5 @@ mongoose.Promise = Promise;
 
 module.exports.Singer = require("./singer");
 module.exports.Song = require("./song");
+module.exports.Title = require("./title");
+module.exports.SetList = require("./setList");

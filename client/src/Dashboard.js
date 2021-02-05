@@ -11,7 +11,8 @@ const Dashboard = (props) => {
         .catch(err => console.log(err));
     }
     useEffect(function(){
-        axios["get"]("/api/song/").then(res=>{
+        axios["get"]("/api/title/").then(res=>{
+            console.log(res);
             let newSongs = res.data.map(song=>{
             return(
                 <tr key={song._id}>
@@ -28,13 +29,16 @@ const Dashboard = (props) => {
     },[])
     useEffect(function(){
          axios["get"](`/api/singer/${singer}/songs`).then(res=>{
+             console.log(res);
             let singerSongs = res.data.map(song=>{
+                let range = song.title.range.reduce((acc, next)=> {return `${acc} ${next}`}, "")
+                console.log(range);
                 return (
                     <tr key={song._id}>
-                        <td><button value={song._id} onClick={props.changeSong}>{song.title}</button></td>
-                        <td>{song.composer}</td>
-                        <td>{song.key}</td>
-                        <td>{song.range}</td>
+                        <td><button value={song._id} onClick={props.changeSong}>{song.title.title}</button></td>
+                        <td>{song.title.composer}</td>
+                        <td>{song.title.key}</td>
+                        <td>{range}</td>
                         <td><progress value={song.learned.all} max="100"></progress></td>
                     </tr>
                 )
@@ -75,23 +79,6 @@ const Dashboard = (props) => {
                     </thead>
                     <tbody>
                         {songList}
-                    </tbody>
-                </table>
-            </section>
-            <section>
-                <h2>Find Songs You Want To Sing</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Composer</th>
-                            <th>Key</th>
-                            <th>Range</th>
-                            <th>Add Song</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                         {globalSongs}
                     </tbody>
                 </table>
             </section>

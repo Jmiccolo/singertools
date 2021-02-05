@@ -2,12 +2,8 @@ const mongoose = require("mongoose");
 const db = require("../models");
 
 const songSchema = new mongoose.Schema({
-    title:String,
-    composer:String,
-    key: String,
-    range: [String],
-    user:{type:mongoose.Schema.Types.ObjectId, ref:"Singer"},
-    text: [String],
+    title:{type:mongoose.Schema.Types.ObjectId, ref:"Title"},
+    text:[String],
     learned: {
         text:{type:Number, default:0},
         rhythym: {type:Number, default:0},
@@ -21,7 +17,8 @@ const songSchema = new mongoose.Schema({
             action: String
         }
     ],
-    createdAt: {type:Date, default:Date.now}
+    user: {type:mongoose.Schema.Types.ObjectId, ref:"Singer"},
+    private:Boolean
 })
 
 
